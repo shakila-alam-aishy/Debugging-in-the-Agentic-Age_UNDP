@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Donate - Community Relief Fund</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="card">
+    <h1>Community Relief Fund</h1>
+    <p class="lead">Every dollar goes to families affected by the floods.</p>
+
+    <form id="donation-form" novalidate>
+      <label for="name">Your name</label>
+      <input id="name" type="text" placeholder="Optional">
+
+      <label for="amount">Amount (USD)</label>
+      <input id="amount" type="text" inputmode="decimal" placeholder="25">
+
+      <label class="check" for="cover-fee">
+        <input id="cover-fee" type="checkbox"> I'll cover the card fee (2.9% + $0.30)
+      </label>
+
+      <button type="submit">Donate</button>
+    </form>
+
+    <p id="message" role="status"></p>
+  </main>
+
+  <script src="donation.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

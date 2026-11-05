@@ -1,0 +1,35 @@
+diff --git a/app.js b/app.js
+index dafd143..322c1b8 100644
+--- a/app.js
++++ b/app.js
+@@ -9,7 +9,7 @@ f.addEventListener("submit", async function (e) {
+   var n = document.getElementById("name").value;
+   var amt = document.getElementById("amount").value;
+   var cf = document.getElementById("cover-fee").checked;
+-  var tmp;
++  var totalAmount;
+ 
+   if (amt == "") {
+     msg.className = "error";
+@@ -21,7 +21,7 @@ f.addEventListener("submit", async function (e) {
+ 
+   if (cf) {
+     var fee = calculateFee(amt);
+-    tmp = calculateTotal(amt, true);
++    totalAmount = calculateTotal(amt, true);
+     try {
+       var r = await fetch("/api/charge", {
+         method: "POST",
+diff --git a/donation.js b/donation.js
+index 86db736..49feb45 100644
+--- a/donation.js
++++ b/donation.js
+@@ -27,7 +27,7 @@ function calculateFee(amount) {
+ // If the donor covers the fee, add it on top of the donation
+ function calculateTotal(amount, coverFee) {
+   if (coverFee) {
+-    return amount + calculateFee(amount);
++    return parseFloat(amount + calculateFee(amount));
+   }
+   return amount;
+ }
