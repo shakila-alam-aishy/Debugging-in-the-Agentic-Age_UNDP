@@ -1,112 +1,142 @@
 # Debugging in the Agentic Age
 
-**UN Volunteers · Course**  
+**Agentic AI & Vibe Coding · UNV Volunteer Series**
 **Session 7 | Quality & Scale**
 
-A practical learning repository focused on debugging AI-generated code, improving software reliability, and building safer development workflows in the age of AI agents.
+A hands-on learning repository for debugging AI-generated code: how to audit it, how to give an AI assistant useful context, how to escape the endless fix loop with Git, and how to prove a fix with regression tests.
 
-## 📌 About This Repository
+> **Learning principle:** Do not blindly trust AI-generated code. Inspect it, test it, verify the fix, and understand the changes before accepting them.
 
-This repository contains the presentation slides, practical lab materials, code examples, and debugging exercises for **Session 7: Debugging in the Agentic Age**, delivered as part of the UN Volunteers Agentic AI & Vibe Coding course.
+---
 
-The session focuses on reviewing, debugging, testing, and maintaining AI-generated code instead of blindly trusting automated solutions.
+## About the series
 
-## 🎯 Learning Objectives
+This session is part of the **Agentic Software Development & Vibe Coding** series, organised by **UN Volunteers (UNV)** under the *Agentic AI & Vibe Coding* volunteer programme, in partnership with **UNDP** and **IICPSD**.
 
-By completing this session, learners will be able to:
+## About this session
 
-- **Audit AI-generated code:** Understand what the code does, which files it affects, and whether it handles errors and sensitive information safely.
-- **Provide useful debugging context:** Give AI coding assistants clear error messages, relevant files, commands, and reproducible steps.
-- **Break the endless fix loop:** Recognize repeated unsuccessful fixes and use Git to return to a known working state.
-- **Refactor technical debt:** Improve code structure and maintainability without changing intended behavior.
-- **Test and verify fixes:** Use regression tests to confirm that fixes work and previously working functionality remains intact.
-- **Review security risks:** Identify unsafe practices, exposed secrets, and other potential vulnerabilities.
+AI coding assistants can build a working-looking app in minutes. They can also leave behind exposed secrets, silent failures and wrong calculations. This session is a practical lab: you receive a deliberately broken, AI-built donation page, find out why it is broken, fix it properly, and prove the fix with tests.
 
-## 🧪 Practical Use Case
+| | |
+|---|---|
+| **Track** | Quality & Scale |
+| **Real-world use case** | Fixing a broken AI-built donation page |
+| **You will produce** | A bug report and a fix with regression tests |
+| **Requirements** | No GPU and no paid tools |
 
-### Fixing a Broken AI-Built Donation Page
+## Learning objectives
 
-The practical lab uses a deliberately broken donation page to demonstrate a systematic debugging workflow.
+By the end of the session you will be able to:
 
-Participants investigate the existing code, identify bugs, use AI coding assistants effectively, verify proposed fixes, and write regression tests to prevent the same issues from returning.
+- **Audit AI-generated code.** Check what it does, which files it touches, and whether it handles errors and secrets safely before you trust it.
+- **Give agents useful error context.** Include the exact error message, the steps or command you ran, and the relevant file, instead of "it does not work".
+- **Escape the endless fix loop.** Recognise repeated failed fixes, stop, roll back to the last working state with Git, and restart with a smaller, clearer request.
+- **Refactor technical debt.** Reorganise quickly generated code without changing what it does.
+- **Test and verify fixes.** Write regression tests so a fixed bug cannot silently return.
+- **Review security risks.** Spot exposed secrets and other unsafe practices.
 
-## 📂 Repository Structure
+## Prerequisites
+
+Install these before the lab:
+
+| Tool | Version | Check with |
+|---|---|---|
+| [Node.js](https://nodejs.org) | 18 or newer (LTS) | `node --version` |
+| [Git](https://git-scm.com) | any recent version | `git --version` |
+| A code editor | for example VS Code | |
+| A web browser | Chrome, Edge or Firefox | |
+| An AI coding assistant | a free tier is enough | |
+
+No other installs are needed. The lab project has no dependencies.
+
+## Quick start
+
+```bash
+git clone https://github.com/shakila-alam-aishy/Debugging-in-the-Agentic-Age_UNDP.git
+cd Debugging-in-the-Agentic-Age_UNDP/Lab
+
+node server.js        # open http://localhost:3000
+node --test           # run the tests (in a second terminal)
+```
+
+> **Windows (PowerShell):** use `cd Debugging-in-the-Agentic-Age_UNDP\Lab`.
+> Stop the server with `Ctrl + C`.
+
+**Opening browser DevTools:** press `Ctrl + Shift + I` (macOS: `Cmd + Option + I`). On many laptops `F12` is mapped to another function and will not work.
+
+## The lab: four stations
+
+Work in pairs and commit small and often. Each station has a worksheet in `Lab/lab/`.
+
+| Station | Learning goal | Worksheet |
+|---|---|---|
+| 1 | Read and audit AI-generated code | `1-audit-checklist.md` |
+| 2 | Give agents useful error context | `2-error-context.md` |
+| 3 | Escape the endless fix loop and roll back with Git | `3-git-rollback.md` |
+| 4 | Refactor vibe-induced technical debt (optional) | `4-refactor.md` |
+
+Finish with a regression test and a bug report using `bug-report-template.md`.
+
+### Station 3: simulate a fix loop, then roll back
+
+Run these from the `Lab` folder:
+
+```bash
+git apply --ignore-whitespace --directory=Lab lab/bad-ai-fix.patch   # simulates a bad AI fix
+git status                                                           # what changed?
+git restore .                                                        # roll back
+git log --oneline                                                    # screenshot this
+```
+
+Quick reference for the rest of the Git commands is in `Lab/lab/git-cheatsheet.md`.
+
+## What to submit
+
+1. **Bug report**, filled in from `lab/bug-report-template.md` (save it as `lab/my-bug-report.md`).
+2. **Fixed code** with at least one real regression test in `test/regression.test.js`.
+3. **Screenshot** of `git log --oneline` showing your rollback or revert.
+
+## Repository structure
 
 ```text
 Debugging-in-the-Agentic-Age_UNDP/
 │
-├── README.md
+├── README.md                     You are here
 │
 ├── Slides/
 │   ├── Debugging in the Agentic Age.pptx
 │   └── Debugging in the Agentic Age Lab.pptx
 │
-└── Lab/
-    ├── README.md
-    ├── .gitignore
-    ├── BUG_REPORT.md
+└── Lab/                          The practical project
+    ├── README.md                 Lab-specific instructions
+    ├── index.html                The donation page
+    ├── style.css
+    ├── app.js                    Form handling and payment call
+    ├── donation.js               Money helpers (validation, fee, total)
+    ├── server.js                 Small local server with a fake /api/charge endpoint
     ├── package.json
-    ├── package-lock.json
-    ├── server.js
+    ├── .gitignore
+    ├── .gitattributes
     │
-    ├── .devcontainer/
-    ├── public/
-    └── tests/
+    ├── lab/                      Worksheets and the practice patch
+    │   ├── 1-audit-checklist.md
+    │   ├── 2-error-context.md
+    │   ├── 3-git-rollback.md
+    │   ├── 4-refactor.md
+    │   ├── bug-report-template.md
+    │   ├── git-cheatsheet.md
+    │   └── bad-ai-fix.patch
+    │
+    └── test/                     Tests (npm test or node --test)
+        ├── donation.test.js
+        └── regression.test.js
 ```
 
-**Note:** This structure reflects the repository organization. The `.devcontainer/`, `public/`, and `tests/` folders contain the practical lab's configuration, application files, and tests, respectively.
-
-## 🛠️ Key Topics
+## Key topics
 
 1. Reading and auditing AI-generated code
 2. Writing effective debugging prompts
-3. Understanding error messages and stack traces
+3. Understanding error messages and browser DevTools
 4. Avoiding repeated, ineffective AI-generated fixes
-5. Using Git commits, diffs, and rollback safely
-6. Refactoring AI-generated code
-7. Writing and running regression tests
-8. Reviewing security risks and protecting secrets
-
-## 📦 Expected Outcomes
-
-By the end of the session, participants should be able to produce:
-
-- A structured bug report
-- An evidence-based bug fix
-- Regression tests for identified issues
-- A more maintainable codebase
-- A safer workflow for collaborating with AI coding assistants
-
-## 💻 Tools and Technologies
-
-- Git and GitHub
-- AI coding assistants
-- Code editors and terminal tools
-- Node.js and npm
-- Automated testing tools used in the practical lab
-
-The practical workflow is designed to run locally without requiring a GPU. AI coding assistants may have their own access requirements.
-
-## 🔐 Security Reminder
-
-Never commit API keys, passwords, access tokens, private credentials, or other sensitive information to a public repository.
-
-Before publishing or updating code:
-
-- Review changes for exposed secrets.
-- Keep private credentials out of source code.
-- Use environment variables for sensitive configuration.
-- Review `.gitignore` and configuration files.
-- Inspect code generated by AI before running or accepting it.
-
-## 👩‍🏫 Course Information
-
-- **Program:** UN Volunteers · Agentic AI & Vibe Coding Course
-- **Session:** 7
-- **Track:** Quality & Scale
-- **Topic:** Debugging in the Agentic Age
-- **Practical Project:** Fixing a Broken AI-Built Donation Page
-
----
-
-**Learning principle:** Do not blindly trust AI-generated code. Inspect it, test it, verify the fix, and understand the changes before accepting them.
+5. Using Git status, diff, log, restore and revert safely
+6. Refactoring
